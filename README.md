@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 # PredictMed: Agentic AI for early CKD deterioration detection
 
 Team AI Innovix. This folder is a runnable prototype of the pipeline in your slides.
