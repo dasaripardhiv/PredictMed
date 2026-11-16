@@ -1,0 +1,11 @@
+services:
+  api:
+    build: .
+    ports: ["8000:8000"]
+    env_file: [backend/.env]
+    volumes: ["./data:/app/backend/data"]
+  mlflow:            # optional: docker compose --profile mlops up
+    image: ghcr.io/mlflow/mlflow:latest
+    profiles: ["mlops"]
+    command: mlflow server --host 0.0.0.0 --port 5000
+    ports: ["5000:5000"]

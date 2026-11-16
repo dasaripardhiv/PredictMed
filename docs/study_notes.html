@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>PredictMed: Study Notes</title>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Patrick+Hand&display=swap" rel="stylesheet">
+<style>
+:root{--paper:#f8fbfc;--line:#d3e4ec;--margin:#e9a3a3;--ink:#1f2d2b;--teal:#0f6b63;--teal2:#2a9d8f;--hl:rgba(166,212,30,.6);--orange:#d1550f;--card:#ffffff;--sticky:#f1f8c8;--edge:#0f6b63;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--paper:#15201e;--line:#243b37;--margin:#7a4a4a;--ink:#e6efed;--teal:#6fd3c4;--teal2:#3fb5a6;--hl:rgba(166,212,30,.35);--orange:#ff9a5c;--card:#1d2c29;--sticky:#34401f;--edge:#6fd3c4}}
+:root[data-theme="dark"]{--paper:#15201e;--line:#243b37;--margin:#7a4a4a;--ink:#e6efed;--teal:#6fd3c4;--teal2:#3fb5a6;--hl:rgba(166,212,30,.35);--orange:#ff9a5c;--card:#1d2c29;--sticky:#34401f;--edge:#6fd3c4}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background-color:var(--paper);background-image:repeating-linear-gradient(to bottom,transparent 0 31px,var(--line) 31px 32px);color:var(--ink);font-family:"Patrick Hand","Segoe Print","Comic Sans MS",cursive;font-size:20px;line-height:32px}
+main{position:relative;max-width:780px;margin:0 auto;padding:24px 20px 64px 64px}
+main::before{content:"";position:absolute;left:44px;top:0;bottom:0;width:2px;background:var(--margin)}
+h1,h2,h3{font-family:Caveat,"Segoe Print",cursive;color:var(--teal);margin:0;line-height:1.1}
+h1{font-size:56px;margin-top:8px}
+h2{font-size:40px;margin:56px 0 12px}
+h3{font-size:28px;margin:0 0 4px;color:var(--orange)}
+p{margin:0 0 16px}
+.sub{font-size:22px;margin-bottom:8px}
+.hl{background:linear-gradient(transparent 55%,var(--hl) 55%)}
+.sticky{background:var(--sticky);padding:14px 18px;margin:20px 0;transform:rotate(-.8deg);box-shadow:2px 4px 10px rgba(0,0,0,.15);border-radius:3px 12px 4px 10px}
+.sticky p:last-child{margin:0}
+.box{background:var(--card);border:2.5px solid var(--edge);border-radius:255px 18px 225px 18px/18px 225px 18px 255px;padding:12px 22px;margin:0}
+.box b{color:var(--teal)}
+.arrow{font-family:Caveat,cursive;font-size:34px;color:var(--orange);text-align:center;line-height:34px;margin:2px 0}
+.flow .box small{display:block;line-height:24px;font-size:18px;opacity:.9}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.two .box:nth-child(2){border-radius:18px 255px 18px 225px/225px 18px 255px 18px}
+dl{display:grid;grid-template-columns:max-content 1fr;gap:0 14px;margin:0}
+dt{font-family:Caveat,cursive;font-size:26px;color:var(--orange);font-weight:700}
+dd{margin:0 0 8px}
+ul{margin:0 0 16px;padding-left:24px}
+li{margin-bottom:6px}
+svg{display:block;width:100%;height:auto;max-width:520px;margin:8px 0}
+svg .t{font-family:Caveat,cursive;font-size:17px;fill:var(--ink)}
+svg .o{fill:var(--orange)}
+svg .ax{stroke:var(--ink);stroke-width:2;fill:none}
+svg .pt{fill:var(--teal)}
+svg .ln{stroke:var(--teal2);stroke-width:3;fill:none;stroke-dasharray:7 5}
+svg .al{stroke:var(--orange);stroke-width:2.5;fill:none;stroke-dasharray:4 4}
+svg .bar{fill:var(--teal2);stroke:var(--edge);stroke-width:2}
+.steps{list-style:none;padding:0;margin:0}
+.steps li{display:grid;grid-template-columns:44px 1fr;gap:12px;margin-bottom:14px}
+.steps i{font-style:normal;font-family:Caveat,cursive;font-size:30px;color:var(--ink);background:var(--hl);border:2.5px solid var(--edge);border-radius:50% 45% 55% 50%;width:44px;height:44px;display:grid;place-items:center;line-height:1}
+.qa p{margin-bottom:10px}
+.qa b{color:var(--teal)}
+@media (max-width:600px){body{font-size:18px}main{padding:16px 14px 48px 38px}main::before{left:22px}h1{font-size:44px}h2{font-size:34px}.two{grid-template-columns:1fr}.two .box:nth-child(2){border-radius:255px 18px 225px 18px/18px 225px 18px 255px}dl{grid-template-columns:1fr}dd{margin-bottom:12px}}
+</style>
+</head>
+<body>
+<main>
+
+<h1>PredictMed: my study notes</h1>
+<p class="sub">Team AI Innovix: what it is, how it works, and how to explain it</p>
+
+<div class="sticky">
+<h3>The big idea in one breath</h3>
+<p>Kidney disease creeps up <span class="hl">silently</span>. About 9 in 10 people who have it don’t know, and health plans usually notice only after an emergency dialysis start. PredictMed watches lab numbers <b>over time</b>, spots a fast downward trend early, explains why in plain words with sources, and gives a care manager a <b>ranked call list</b>. A human always approves the outreach.</p>
+<p>Think of it as a smoke alarm for kidneys: it goes off while there is still time to act.</p>
+</div>
+
+<h2>Words I need first</h2>
+<dl>
+<dt>CKD</dt><dd>Chronic kidney disease: kidneys slowly lose their filtering power.</dd>
+<dt>eGFR</dt><dd>Estimated filtration rate, a score for how well kidneys filter blood. Higher is healthier, a falling number is bad news.</dd>
+<dt>UACR</dt><dd>Urine albumin-to-creatinine ratio. Protein leaking into urine is an early damage sign.</dd>
+<dt>KDIGO</dt><dd>The international guideline body. Its stages (G1 to G5) group people by eGFR.</dd>
+<dt>CKD-EPI 2021</dt><dd>The formula that turns a blood test into eGFR. The 2021 version is <span class="hl">race-free</span>, which is fairer.</dd>
+<dt>HEDIS</dt><dd>Quality measures health plans report. A “care gap” is a recommended check that hasn’t happened yet.</dd>
+<dt>PHI</dt><dd>Protected health information: anything that identifies a patient. It needs extra care.</dd>
+<dt>FHIR</dt><dd>A standard format for sharing health records between systems.</dd>
+</dl>
+
+<h2>The trend idea (the heart of it)</h2>
+<p>One lab value says where you are. A <b>series</b> of values says where you are heading, and how fast. PredictMed measures that speed.</p>
+<svg viewBox="0 0 360 215" role="img" aria-label="Sketch of eGFR readings falling over time, with a dashed best-fit line and an alarm where the drop speeds up">
+<path class="ax" d="M30 10 L30 190 L345 190"/>
+<text class="t" x="34" y="24">eGFR</text>
+<text class="t" x="285" y="208">time</text>
+<g class="pt"><circle cx="50" cy="50" r="5"/><circle cx="90" cy="56" r="5"/><circle cx="130" cy="52" r="5"/><circle cx="170" cy="66" r="5"/><circle cx="210" cy="82" r="5"/><circle cx="250" cy="112" r="5"/><circle cx="290" cy="140" r="5"/><circle cx="330" cy="166" r="5"/></g>
+<path class="ln" d="M40 33 L335 158"/>
+<path class="al" d="M190 30 L190 185"/>
+<text class="t o" x="196" y="40">alarm: drop speeds up</text>
+<text class="t" x="50" y="100">dashed line = OLS slope</text>
+<text class="t" x="50" y="120">(average speed of decline)</text>
+</svg>
+<ul>
+<li><b>OLS slope</b>: the best straight line through the readings. Steeper means faster decline.</li>
+<li><b>CUSUM</b>: adds up small drifts and rings an alarm when they stack into a real change. It catches the <i>moment</i> the trend bends.</li>
+<li><b>DVI (Deterioration Velocity Index)</b>: the team’s speed-of-decline score, built from OLS slope plus CUSUM change-point on eGFR and UACR.</li>
+</ul>
+
+<h2>How the whole thing flows</h2>
+<div class="flow">
+<div class="box"><b>1. Data in</b><small>Labs, claims and meds as FHIR or CSV. Schema validation checks it. Stored in Parquet with DuckDB.</small></div>
+<div class="arrow">↓</div>
+<div class="box"><b>2. Signals</b><small>eGFR slope, UACR change, HbA1c trend, days since last lab, NSAID flag (some painkillers can strain kidneys).</small></div>
+<div class="arrow">↓</div>
+<div class="box"><b>3. Trajectory</b><small>CKD-EPI 2021 eGFR, then OLS and CUSUM, giving the DVI.</small></div>
+<div class="arrow">↓</div>
+<div class="box"><b>4. Risk score</b><small>LightGBM forecasts 12-month progression. Isotonic calibration makes “30% risk” really mean about 30 in 100. SHAP shows which factors pushed the score. Tiers combine KDIGO stage with decline speed.</small></div>
+<div class="arrow">↓</div>
+<div class="box"><b>5. Explain with sources (RAG)</b><small>The system searches KDIGO guideline text, then an LLM writes a short reason that cites it.</small></div>
+<div class="arrow">↓</div>
+<div class="box"><b>6. Human review</b><small>Care manager approves outreach drafts in English, Telugu and Hindi. Clinician reviews referral ideas.</small></div>
+<div class="arrow">↓ then ↺</div>
+<div class="box"><b>7. Learn and monitor</b><small>Outcomes retrain the models through MLflow. PSI drift watch warns when new data stops looking like the training data.</small></div>
+</div>
+<p style="margin-top:16px">Side feature: a <b>graph layer</b> (NetworkX and node2vec) finds members with similar patterns.</p>
+
+<h2>RAG and the two LLMs</h2>
+<p><b>RAG</b> means “look it up first, then answer.” Guideline text is turned into number vectors with MiniLM embeddings and stored in FAISS, a fast similarity search. The LLM only writes from what was retrieved, so reasons come with citations instead of guesses.</p>
+<div class="two">
+<div class="box"><b>Groq Llama 3.3 70B</b><small style="display:block;line-height:24px">Very fast. Handles agent reasoning on <span class="hl">de-identified</span> text only.</small></div>
+<div class="box"><b>Local Hugging Face LLM</b><small style="display:block;line-height:24px">Runs in-house. Used whenever PHI is involved, so patient data never leaves.</small></div>
+</div>
+<p style="margin-top:12px">A <b>router</b> picks which one to use. Note from the slide: confirm the live Groq model IDs before building.</p>
+
+<h2>The agents</h2>
+<p>The system uses <b>LangGraph</b>, which connects small specialist agents into one workflow:</p>
+<ul>
+<li>a CUSUM trend agent that watches the slope</li>
+<li>a SHAP-loop agent that picks the most useful features</li>
+<li>HEDIS care-gap agents that rank who should be contacted first</li>
+</ul>
+
+<h2>Why you can trust it (Responsible AI)</h2>
+<ul>
+<li><b>SHAP</b> explains every score.</li>
+<li><b>Time-based validation</b>: train on the past, test on later data, no peeking at the future.</li>
+<li><b>Race-free eGFR</b> (CKD-EPI 2021) and a subgroup bias audit.</li>
+<li><b>Human-in-the-loop</b>: nothing goes out without approval, and MLflow keeps an audit trail.</li>
+</ul>
+
+<h2>Tools cheat sheet</h2>
+<dl>
+<dt>Kafka</dt><dd>Moves data in real time</dd>
+<dt>Airflow</dt><dd>Schedules pipeline jobs</dd>
+<dt>Iceberg</dt><dd>Organises large data tables</dd>
+<dt>MLflow</dt><dd>Tracks and versions models</dd>
+<dt>FastAPI</dt><dd>Serves the models as small services</dd>
+<dt>Kubernetes</dt><dd>Runs and scales those services</dd>
+</dl>
+
+<h2>Who needs it, and how big is it</h2>
+<ul>
+<li><b>Health plans and payers</b>: care management, HEDIS, Stars</li>
+<li><b>Providers</b>: ACOs, hospitals, nephrology clinics</li>
+<li><b>Government and public-health programs</b>: screening, insurance schemes</li>
+<li><b>Employers, TPAs and digital chronic-care platforms</b></li>
+</ul>
+<p>Grand View’s AI-in-healthcare estimate (USD billion):</p>
+<svg viewBox="0 0 360 215" role="img" aria-label="Bar sketch of AI in healthcare market growing from 26.6 billion dollars in 2024 to 187.7 in 2030">
+<path class="ax" d="M10 175 L350 175"/>
+<g class="bar"><rect x="20" y="155" width="34" height="20"/><rect x="68" y="148" width="34" height="27"/><rect x="116" y="137" width="34" height="38"/><rect x="164" y="122" width="34" height="53"/><rect x="212" y="102" width="34" height="73"/><rect x="260" y="74" width="34" height="101"/><rect x="308" y="35" width="34" height="140"/></g>
+<g class="t" text-anchor="middle"><text x="37" y="149">26.6</text><text x="85" y="142">36.8</text><text x="133" y="131">51</text><text x="181" y="116">70.6</text><text x="229" y="96">97.8</text><text x="277" y="68">135.5</text><text x="325" y="29">187.7</text>
+<text x="37" y="196">2024</text><text x="85" y="196">25</text><text x="133" y="196">26</text><text x="181" y="196">27</text><text x="229" y="196">28</text><text x="277" y="196">29</text><text x="325" y="196">2030</text></g>
+</svg>
+<p>Growth rate: <b>38.6% CAGR</b> (2025 to 2030) per Grand View Research, and <b>37.1% CAGR</b> (2024 to 2032) per Global Market Insights. Payers are the fastest-growing end-use segment per Grand View. Values after each firm’s base year are derived from its CAGR, so say “estimated.”</p>
+
+<h2>The roadmap</h2>
+<ol class="steps">
+<li><i>1</i><div><b>Research and planning</b><br>KDIGO review, data schema, Synthea synthetic cohort, baseline metrics, architecture and UX wireframes.</div></li>
+<li><i>2</i><div><b>MVP development</b><br>Ingestion, feature store, LightGBM with SHAP, LangGraph agents, Groq/HF router, care-team dashboard.</div></li>
+<li><i>3</i><div><b>Beta testing and refinement</b><br>Pilot on de-identified data, calibration, subgroup bias audit, PSI drift watch, reviewer feedback.</div></li>
+<li><i>4</i><div><b>Full-scale development</b><br>Kafka, Airflow and Iceberg pipeline, FHIR/HL7 integration, Kubernetes, MLflow registry.</div></li>
+<li><i>5</i><div><b>Market launch and expansion</b><br>Payer pilots, value-based program links, HIPAA and DPDP compliance, federated learning across plans.</div></li>
+</ol>
+
+<h2>Who does what (use case)</h2>
+<div class="flow">
+<div class="box"><b>Member</b>: shares labs and claims</div>
+<div class="arrow">↓</div>
+<div class="box"><b>System</b>: computes DVI, predicts risk, explains with RAG, monitors drift</div>
+<div class="arrow">↓</div>
+<div class="box"><b>Care manager</b>: views the ranked list, reviews the cited reason, approves outreach</div>
+<div class="arrow">↓</div>
+<div class="box"><b>Clinician</b>: reviews the referral idea</div>
+</div>
+
+<h2>Say it out loud</h2>
+<div class="sticky">
+<h3>30-second pitch</h3>
+<p>“Most kidney disease is found late. PredictMed tracks each member’s eGFR and UACR over time, scores how fast they are declining, explains the risk with cited guidelines, and ranks who to call first. A care manager approves every message, and patient data stays protected by using a local model for anything identifiable.”</p>
+</div>
+<div class="qa">
+<p><b>Why not just use an eGFR cut-off?</b> A single number misses speed. Two people can share the same eGFR today while one is falling fast.</p>
+<p><b>How is privacy handled?</b> De-identified text goes to Groq, PHI stays with the local model, and humans approve outputs.</p>
+<p><b>Why trust the score?</b> It is calibrated, explained with SHAP, and backed by KDIGO citations.</p>
+<p><b>What data did you use?</b> The plan uses a Synthea synthetic cohort first, then a pilot on de-identified data.</p>
+<p><b>Biggest caveat?</b> Market figures are third-party estimates, and the later roadmap phases are plans, so present them as such.</p>
+</div>
+
+</main>
+</body>
+</html>

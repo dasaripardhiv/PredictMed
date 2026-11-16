@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>PredictMed: Care-Manager Demo</title>
+<style>
+:root{--bg:#eef6f4;--card:#ffffff;--ink:#1f2d2b;--mut:#5b6b72;--line:#cfe3df;--teal:#0f6b63;--teal2:#2a9d8f;--lime:#a6d41e;--hi:#e36414;--hibg:#fde9dc;--mdbg:#dff1ee;--lobg:#eef7d2;--sel:#e3f2ef;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#111b19;--card:#1a2724;--ink:#e6efed;--mut:#9db1ad;--line:#2b403b;--teal:#6fd3c4;--teal2:#3fb5a6;--hi:#ff9a5c;--hibg:#3d2a1f;--mdbg:#1f3a36;--lobg:#2c3a1a;--sel:#223632}}
+:root[data-theme="dark"]{--bg:#111b19;--card:#1a2724;--ink:#e6efed;--mut:#9db1ad;--line:#2b403b;--teal:#6fd3c4;--teal2:#3fb5a6;--hi:#ff9a5c;--hibg:#3d2a1f;--mdbg:#1f3a36;--lobg:#2c3a1a;--sel:#223632}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 Calibri,"Segoe UI",system-ui,sans-serif}
+h1,h2,h3{font-family:Cambria,Georgia,serif;margin:0;color:var(--teal)}
+header{display:flex;flex-wrap:wrap;gap:8px 16px;align-items:center;justify-content:space-between;padding:16px 20px;border-bottom:1px solid var(--line);background:var(--card)}
+h1{font-size:24px}
+.pill{font-size:13px;border:1px solid var(--line);border-radius:999px;padding:2px 10px;background:var(--bg);color:var(--mut)}
+.wrap{max-width:1180px;margin:0 auto;padding:16px 20px 40px}
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px}
+.kpi,.panel{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+.kpi b{display:block;font:700 28px/1.1 Cambria,Georgia,serif;color:var(--teal)}
+.kpi span{font-size:14px;color:var(--mut)}
+.grid{display:grid;grid-template-columns:340px 1fr;gap:16px;align-items:start}
+.list{display:flex;flex-direction:column;gap:8px;margin-top:10px}
+.row{all:unset;box-sizing:border-box;cursor:pointer;display:grid;grid-template-columns:1fr auto;gap:2px 8px;padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:var(--card)}
+.row:hover{background:var(--sel)}
+.row:focus-visible,button:focus-visible,textarea:focus-visible{outline:3px solid var(--teal2);outline-offset:2px}
+.row[aria-pressed="true"]{background:var(--sel);border-color:var(--teal);color:var(--ink)}
+.row small{color:var(--mut);font-size:13px}
+.chip{font-size:13px;font-weight:700;padding:1px 10px;border-radius:999px;align-self:center;border:1px solid var(--line)}
+.High{background:var(--hibg);color:var(--hi)}.Medium{background:var(--mdbg);color:var(--teal)}.Low{background:var(--lobg);color:var(--ink)}
+.top{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px;align-items:baseline}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:12px 0}
+.stats div{background:var(--bg);border-radius:10px;padding:8px 10px}
+.stats b{display:block;font-size:20px}.stats span{font-size:13px;color:var(--mut)}
+svg{width:100%;height:auto;display:block}
+svg text{fill:var(--mut);font-size:12px}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:16px}
+.bar{display:grid;grid-template-columns:140px 1fr 44px;gap:8px;align-items:center;font-size:14px;margin:4px 0}
+.bar i{display:block;height:10px;border-radius:5px;background:var(--hi)}
+.bar i.neg{background:var(--teal2)}
+.reason{border-left:4px solid var(--teal2);padding:6px 12px;background:var(--bg);border-radius:0 8px 8px 0}
+.src{font-size:13px;color:var(--mut)}
+textarea{width:100%;min-height:110px;font:inherit;padding:10px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);resize:vertical}
+.btns{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0}
+button{font:inherit;cursor:pointer;border:1px solid var(--teal);background:var(--card);color:var(--teal);border-radius:8px;padding:6px 14px}
+button[aria-pressed="true"],button.go{background:var(--teal);color:#fff}
+button:disabled{opacity:.45;cursor:not-allowed}
+.log{margin:6px 0 0;padding-left:18px;font-size:14px;color:var(--mut)}
+.note{font-size:13px;color:var(--mut);margin-top:20px}.tabs{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px}[hidden]{display:none!important}.stage{display:grid;grid-template-columns:140px 1fr auto;gap:8px;padding:8px 0;border-bottom:1px solid var(--line);align-items:center}.stage.wait{opacity:.45}.mono{font-family:Consolas,monospace;font-size:14px}input[type=file]{font:inherit;max-width:100%}
+@media (max-width:860px){.grid,.two{grid-template-columns:1fr}.kpis,.stats{grid-template-columns:1fr 1fr}.bar{grid-template-columns:110px 1fr 40px}}
+</style>
+</head>
+<body>
+<header>
+<div><h1>PredictMed</h1><span class="pill">Care-manager demo</span> <span class="pill">Synthetic data only</span></div>
+<span class="pill">Team AI Innovix</span>
+</header>
+<div class="wrap">
+<div class="kpis" id="kpis"></div>
+<div class="tabs" role="group" aria-label="Views"><button data-tab="members" aria-pressed="true">Members</button><button data-tab="pipe" aria-pressed="false">Pipeline and data</button><button data-tab="drift" aria-pressed="false">Drift and retrain</button><button data-tab="router" aria-pressed="false">LLM router</button></div>
+<div class="grid" id="t-members">
+<section class="panel"><h2>Ranked outreach list</h2><span class="src">Highest 12-month risk first. Select a member.</span><div class="list" id="list"></div></section>
+<section id="detail"></section>
+</div>
+<div id="t-pipe" hidden></div><div id="t-drift" hidden></div><div id="t-router" hidden></div>
+<p class="note">Prototype notes: the data is invented. Scoring is a transparent rule-based stand-in for LightGBM plus isotonic calibration. The explanation text is templated, standing in for the FAISS/KDIGO retrieval and LLM step. For a linear score like this one, the factor bars equal what SHAP would report. Nothing here is medical advice.</p>
+</div>
+<script>
+const T=[0,3,6,9,12,15,18,21];
+const M=[
+{n:"Ravi K.",a:58,u:320,x:1,d:40,e:[68,67,66,63,58,52,47,41]},
+{n:"Lakshmi P.",a:64,u:85,x:0,d:60,e:[55,54,55,53,52,51,49,48]},
+{n:"Anil S.",a:49,u:12,x:0,d:30,e:[92,91,92,90,91,90,89,90]},
+{n:"Sunita R.",a:71,u:410,x:0,d:95,e:[38,37,36,35,33,31,28,26]},
+{n:"Mohan T.",a:53,u:45,x:1,d:50,e:[74,73,72,70,66,63,60,57]},
+{n:"Fatima B.",a:60,u:22,x:0,d:45,e:[81,80,80,79,78,77,77,76]},
+{n:"Karthik V.",a:45,u:150,x:0,d:35,e:[88,87,85,82,78,73,69,64]},
+{n:"Padma N.",a:67,u:60,x:0,d:150,e:[47,47,46,46,45,44,44,43]}];
+const avg=a=>a.reduce((s,v)=>s+v,0)/a.length;
+function ols(t,e){const mt=avg(t),me=avg(e);let a=0,b=0;t.forEach((x,i)=>{a+=(x-mt)*(e[i]-me);b+=(x-mt)**2});const s=a/b;return{s,c:me-s*mt}}
+function stage(v){return v>=90?["G1",0]:v>=60?["G2",.1]:v>=45?["G3a",.6]:v>=30?["G3b",1]:v>=15?["G4",1.6]:["G5",2.2]}
+function an(m){
+ const t=T.map(x=>x/12),e=m.e,f=ols(t,e),b=ols(t.slice(0,4),e.slice(0,4));
+ let S=0,al=-1;for(let i=4;i<t.length;i++){S=Math.max(0,S+(b.c+b.s*t[i]-e[i])-1);if(S>6&&al<0)al=i}
+ const dec=Math.max(0,-f.s),last=e[e.length-1],g=stage(last),A=m.u>300?["A3",1.4]:m.u>=30?["A2",.7]:["A1",0];
+ const F=[["eGFR decline speed",.12*Math.min(dec,15)],["CUSUM alarm",al>=0?1:0],["Albuminuria "+A[0],A[1]],["KDIGO stage "+g[0],g[1]],["NSAID flag",m.x?.3:0],["Lab overdue",m.d>90?.6:0]];
+ const z=-3.4+F.reduce((s,k)=>s+k[1],0),risk=1/(1+Math.exp(-z));
+ return{m,f,b,al,dec,last,g:g[0],A:A[0],F,risk,dvi:Math.min(100,Math.round(5*dec+(al>=0?20:0))),tier:risk>=.45?"High":risk>=.2?"Medium":"Low"}
+}
+let R;const rebuild=()=>{R=M.map(an).sort((a,b)=>b.risk-a.risk)};rebuild();
+let sel=0,lang="en",ver=1,bad=0,pstep=7,csvMsg="",base=[15,30,25,20,10],csvText="name,age,uacr,nsaid,days_since_lab,e1,e2,e3,e4,e5,e6,e7,e8\nSita M.,62,180,1,70,72,71,69,66,61,57,52,47";const done={},log=[],refd={};
+const pct=v=>Math.round(v*100)+"%";
+function kpis(){
+ const hi=R.filter(r=>r.tier==="High").length,pend=R.filter(r=>r.tier!=="Low"&&!done[r.m.n]).length;
+ document.getElementById("kpis").innerHTML=[[R.length,"Members monitored"],[hi,"High-risk members"],[Math.round(avg(R.map(r=>r.dvi))),"Average DVI"],[pend,"Awaiting approval"]].map(k=>`<div class="kpi"><b>${k[0]}</b><span>${k[1]}</span></div>`).join("")}
+function list(){
+ document.getElementById("list").innerHTML=R.map((r,i)=>`<button class="row" data-i="${i}" aria-pressed="${i===sel}"><b>${r.m.n}${done[r.m.n]?" ✓":""}</b><span class="chip ${r.tier}">${r.tier}</span><small>eGFR ${r.last}, ${r.g}, DVI ${r.dvi}</small><small style="text-align:right">${pct(r.risk)}</small></button>`).join("")}
+function chart(r){
+ const e=r.m.e,lo=Math.min(...e)-6,hi=Math.max(...e)+6,X=i=>50+i*(440/7),Y=v=>20+(hi-v)/(hi-lo)*150;
+ const fy=i=>Y(r.f.c+r.f.s*T[i]/12);
+ let s=`<svg viewBox="0 0 520 215" role="img" aria-label="eGFR trend for ${r.m.n}"><path d="M50 15V175H495" fill="none" stroke="var(--line)" stroke-width="2"/>`;
+ [lo,(lo+hi)/2,hi].forEach(v=>{s+=`<text x="4" y="${Y(v)+4}">${Math.round(v)}</text>`});
+ T.forEach((t,i)=>{s+=`<text x="${X(i)-8}" y="195">${t}m</text>`});
+ if(r.al>=0)s+=`<line x1="${X(r.al)}" x2="${X(r.al)}" y1="15" y2="175" stroke="var(--hi)" stroke-width="2" stroke-dasharray="5 4"/><text x="${X(r.al)+5}" y="28" style="fill:var(--hi)">CUSUM alarm</text>`;
+ s+=`<line x1="${X(0)}" y1="${fy(0)}" x2="${X(7)}" y2="${fy(7)}" stroke="var(--teal2)" stroke-width="2.5" stroke-dasharray="7 5"/>`;
+ s+=`<polyline fill="none" stroke="var(--teal)" stroke-width="2.5" points="${e.map((v,i)=>X(i)+","+Y(v)).join(" ")}"/>`;
+ e.forEach((v,i)=>{s+=`<circle cx="${X(i)}" cy="${Y(v)}" r="4.5" fill="var(--teal)"/>`});
+ return s+`<text x="300" y="212">months since first reading</text></svg>`}
+function reason(r){
+ const e=r.m.e,d=r.dec.toFixed(1);
+ let t=`${r.m.n}’s eGFR moved from ${e[0]} to ${r.last} over 21 months, a decline of about ${d} mL/min/1.73 m² per year. `;
+ t+=r.dec>5?"KDIGO describes a sustained fall of more than 5 per year as rapid progression. ":r.dec>3?"That is faster than the typical age-related drift. ":"That is close to a stable trend. ";
+ if(r.A!=="A1")t+=`Urine albumin is in the ${r.A} category, which adds risk. `;
+ if(r.al>=0)t+=`The CUSUM check flagged a change point at month ${T[r.al]}. `;
+ if(r.m.x)t+="An NSAID prescription is on record. ";
+ if(r.m.d>90)t+=`The last lab was ${r.m.d} days ago. `;
+ return t}
+const MSG={en:(n,w)=>`Hello ${n}, your recent kidney tests show some changes. Please see your doctor ${w} for a follow-up check. We are here to help you book it.`,
+te:(n,w)=>`నమస్కారం ${n}, మీ ఇటీవలి కిడ్నీ పరీక్షల్లో కొన్ని మార్పులు కనిపించాయి. దయచేసి ${w} మీ డాక్టర్‌ను కలిసి పరీక్ష చేయించుకోండి. అపాయింట్‌మెంట్ తీసుకోవడంలో మేము సహాయం చేస్తాము.`,
+hi:(n,w)=>`नमस्ते ${n}, आपकी हाल की किडनी जाँच में कुछ बदलाव दिखे हैं। कृपया ${w} अपने डॉक्टर से मिलकर जाँच करवाएँ। अपॉइंटमेंट लेने में हम आपकी मदद करेंगे।`};
+const WHEN={en:["this week","this month"],te:["ఈ వారం","ఈ నెలలో"],hi:["इस हफ्ते","इस महीने"]};
+function detail(){
+ const r=R[sel],name=r.m.n.split(" ")[0],low=r.tier==="Low",w=WHEN[lang][r.tier==="High"?0:1];
+ const mx=Math.max(...r.F.map(k=>Math.abs(k[1])),.1);
+ document.getElementById("detail").innerHTML=`<div class="panel"><div class="top"><h2>${r.m.n}, age ${r.m.a}</h2><span class="chip ${r.tier}">${r.tier} risk, ${pct(r.risk)} in 12 months</span></div>
+ <div class="stats"><div><b>${r.last}</b><span>eGFR now, ${r.g}</span></div><div><b>${(-r.f.s).toFixed(1)}/yr</b><span>OLS decline</span></div><div><b>${r.dvi}</b><span>DVI (0 to 100)</span></div><div><b>${r.A}</b><span>UACR ${r.m.u} mg/g</span></div></div>
+ ${chart(r)}<span class="src">Solid line: readings. Dashed teal: OLS fit. Dashed orange: CUSUM alarm.</span></div>
+ <div class="two"><div class="panel"><h3>Why this score</h3>${r.F.filter(k=>k[1]>0).map(k=>`<div class="bar"><span>${k[0]}</span><i style="width:${Math.max(4,Math.abs(k[1])/mx*100)}%"></i><b>+${k[1].toFixed(2)}</b></div>`).join("")||"<p>No risk factors above baseline.</p>"}
+ <p class="src">Contributions to the log-odds of progression.</p>
+ <h3 style="margin-top:12px">Similar members (graph layer)</h3><p>${sim(r).map(s=>s[0].m.n+" ("+s[0].tier+")").join(", ")}</p><p class="src">Nearest neighbours on decline, eGFR, albuminuria and alarm. The full system uses NetworkX with node2vec.</p>
+ <h3 style="margin-top:12px">Cited reason</h3><div class="reason">${reason(r)}</div><p class="src">Source: KDIGO CKD guideline (simulated retrieval). Routed to Groq Llama 3.3 70B, de-identified text only.</p></div>
+ <div class="panel"><h3>Outreach draft</h3><div class="btns" role="group" aria-label="Language">${[["en","English"],["te","తెలుగు"],["hi","हिन्दी"]].map(l=>`<button data-l="${l[0]}" aria-pressed="${lang===l[0]}">${l[1]}</button>`).join("")}</div>
+ <textarea id="msg" aria-label="Outreach message" ${low?"disabled":""}>${low?"No outreach needed. Routine monitoring continues.":MSG[lang](name,w)}</textarea>
+ <p class="src">Drafted by the local Hugging Face model because it contains the member’s name (PHI).</p>
+ <div class="btns"><button class="go" id="ok" ${low||done[r.m.n]?"disabled":""}>${done[r.m.n]?"Approved":"Approve and queue"}</button>${r.tier==="High"?`<button id="rf" ${refd[r.m.n]?"disabled":""}>${refd[r.m.n]?"Referral suggested":"Clinician: suggest nephrology referral"}</button>`:""}</div>
+ <h3>Activity log</h3><ul class="log">${log.map(l=>`<li>${l}</li>`).join("")||"<li>Nothing approved yet. A human must approve every message.</li>"}</ul></div></div>`}
+function paint(){kpis();list();detail();pipe();drift()}
+document.addEventListener("click",ev=>{
+ const b=ev.target.closest("button");if(!b)return;
+ if(b.dataset.i!==undefined){sel=+b.dataset.i;paint();if(innerWidth<860)document.getElementById("detail").scrollIntoView({behavior:"smooth"})}
+ else if(b.dataset.l){lang=b.dataset.l;detail()}
+ else if(b.id==="ok"){const r=R[sel];done[r.m.n]=1;log.unshift(`${r.m.n}: ${lang.toUpperCase()} message approved at ${new Date().toLocaleTimeString([], {hour:"2-digit",minute:"2-digit"})}`);paint()}});
+const el=i=>document.getElementById(i),BINS=[["90+",90,999],["60–89",60,90],["45–59",45,60],["30–44",30,45],["under 30",-99,30]],TABS=["members","pipe","drift","router"];
+const dist=()=>BINS.map(b=>R.filter(r=>r.last>=b[1]&&r.last<b[2]).length/R.length*100);
+const psi=c=>c.reduce((s,v,i)=>{const a=Math.max(v,.5)/100,e=Math.max(base[i],.5)/100;return s+(a-e)*Math.log(a/e)},0);
+const vec=r=>[r.dec/5,r.last/30,r.m.u/150,r.al>=0?1:0];
+function sim(r){return R.filter(o=>o!==r).map(o=>[o,Math.hypot(...vec(r).map((v,i)=>v-vec(o)[i]))]).sort((a,b)=>a[1]-b[1]).slice(0,2)}
+function ST(){const hi=R.filter(r=>r.tier==="High").length,md=R.filter(r=>r.tier==="Medium").length,al=R.filter(r=>r.al>=0).length;return[
+["Data in",`${R.length} members, ${R.length*8} lab readings validated, ${bad} rows rejected`],
+["Signals",`${R.length*5} signals: eGFR slope, UACR, NSAID flag, lab recency, KDIGO stage`],
+["Trajectory",`${al} CUSUM alarms, average decline ${avg(R.map(r=>r.dec)).toFixed(1)} per year`],
+["Risk",`${hi} high, ${md} medium, ${R.length-hi-md} low, demo model v1.${ver-1}`],
+["Explain",`${R.length} cited reasons drafted with KDIGO references`],
+["Human review",`${Object.keys(done).length} approved, ${R.filter(r=>r.tier!=="Low"&&!done[r.m.n]).length} waiting`],
+["Retrain",`Model v1.${ver-1} registered, PSI ${psi(dist()).toFixed(2)}`]]}
+function pipe(){el("t-pipe").innerHTML=`<div class="panel"><div class="top"><h2>Pipeline run</h2><button id="run">Run pipeline again</button></div>${ST().map((s,i)=>`<div class="stage ${i<pstep?"":"wait"}"><b>${i+1}. ${s[0]}</b><span>${i<pstep?s[1]:"Waiting"}</span><span class="chip ${i<pstep?"Low":"Medium"}">${i<pstep?"done":"queued"}</span></div>`).join("")}</div><div class="panel" style="margin-top:16px"><h2>Add your own data</h2><p class="src">Paste rows or choose a CSV: name, age, UACR, NSAID (0 or 1), days since lab, then 8 eGFR readings (every 3 months). Rows are validated, scored and ranked. Data stays in your browser.</p><textarea id="csv" class="mono" aria-label="CSV rows">${csvText}</textarea><div class="btns"><button class="go" id="addcsv">Validate and score</button><input type="file" id="csvf" accept=".csv,text/csv" aria-label="Choose CSV file"></div><p class="src">${csvMsg}</p></div>`}
+function drift(){const c=dist(),p=psi(c),k=p<.1?"Low":p<.25?"Medium":"High";el("t-drift").innerHTML=`<div class="panel"><div class="top"><h2>Drift watch (PSI)</h2><span class="chip ${k}">${p<.1?"Stable":p<.25?"Watch":"Drift detected"}, PSI ${p.toFixed(2)}</span></div><p class="src">Compares the latest eGFR mix with the training baseline. Under 0.10 is stable, 0.10 to 0.25 needs watching, above 0.25 means retrain.</p>${BINS.map((b,i)=>`<div class="bar"><span>eGFR ${b[0]}</span><span><i class="neg" style="width:${base[i]*2}%"></i><i style="width:${c[i]*2}%;margin-top:3px"></i></span><b>${Math.round(c[i])}%</b></div>`).join("")}<p class="src">Teal: baseline. Orange: current. Model v1.${ver-1}.</p><div class="btns"><button id="sim">Simulate a month of worse labs</button><button class="go" id="rt" ${p<.25?"disabled":""}>Retrain and register in MLflow</button><button id="rs">Reset demo</button></div></div>`}
+const SAMPLE="Ravi K., phone 9876543210, DOB 12/03/1967: eGFR fell from 68 to 41 in 21 months. Email ravi@example.com";
+function scrub(t){const nm=M.map(m=>m.n.split(" ")[0]).join("|"),rx=[[/\b\d{10}\b/g,"[PHONE]"],[/\b\d{1,2}\/\d{1,2}\/\d{2,4}\b/g,"[DATE]"],[/[\w.]+@[\w.]+\.\w+/g,"[EMAIL]"],[/\bMRN\s*\d+\b/gi,"[MRN]"],[new RegExp("\\b("+nm+")\\b(\\s[A-Z]\\.)?","g"),"[NAME]"]];let out=t,n=0;rx.forEach(([r,l])=>{out=out.replace(r,()=>{n++;return l})});return{out,n}}
+function routerUI(){el("t-router").innerHTML=`<div class="panel"><h2>Dual-LLM router</h2><p class="src">Paste any text. The router scans for identifiers and picks a model.</p><textarea id="rin" aria-label="Text to route">${SAMPLE}</textarea><div class="btns"><button class="go" id="rgo">Route this text</button></div><div id="rout"></div></div>`;doRoute()}
+function doRoute(){const s=scrub(el("rin").value);el("rout").innerHTML=s.n?`<p><span class="chip High">${s.n} identifier${s.n>1?"s":""} found</span> Route: <b>Local Hugging Face LLM</b>. The original text stays in-house.</p><p class="src">Only this de-identified copy may go to Groq Llama 3.3 70B:</p><div class="reason mono">${s.out.replace(/</g,"&lt;")}</div>`:`<p><span class="chip Low">No identifiers found</span> Route: <b>Groq Llama 3.3 70B</b> (fast, de-identified text).</p>`}
+function addCSV(txt){csvText=txt;let ok=0,rej=0;txt.trim().split(/\r?\n/).forEach((l,i)=>{const f=l.split(",").map(s=>s.trim());if(!l.trim()||(i===0&&isNaN(+f[1])))return;const n=f.slice(1).map(Number);if(f.length!==13||n.some(isNaN)||!f[0]||M.some(m=>m.n===f[0])){rej++;return}M.push({n:f[0],a:n[0],u:n[1],x:n[2]?1:0,d:n[3],e:n.slice(4)});ok++});bad+=rej;rebuild();csvMsg=`${ok} row${ok===1?"":"s"} scored and added, ${rej} rejected by the schema check.`;paint()}
+document.addEventListener("click",ev=>{const b=ev.target.closest("button");if(!b)return;
+ if(b.dataset.tab){TABS.forEach(t=>{el("t-"+t).hidden=t!==b.dataset.tab});document.querySelectorAll("[data-tab]").forEach(x=>x.setAttribute("aria-pressed",x===b))}
+ else if(b.id==="run"){pstep=0;pipe();const iv=setInterval(()=>{pstep++;pipe();if(pstep>=7)clearInterval(iv)},500)}
+ else if(b.id==="addcsv")addCSV(el("csv").value);
+ else if(b.id==="sim"){M.forEach(m=>m.e=m.e.map((v,i)=>i>=5?v-4:v));rebuild();sel=0;log.unshift("Simulated a month of worse labs: scores refreshed");paint()}
+ else if(b.id==="rt"){base=dist();ver++;log.unshift(`Retrained: model v1.${ver-1} registered in MLflow, baseline refreshed`);paint()}
+ else if(b.id==="rs")location.reload();
+ else if(b.id==="rgo")doRoute();
+ else if(b.id==="rf"){const r=R[sel];refd[r.m.n]=1;log.unshift(`${r.m.n}: nephrology referral suggested by clinician`);paint()}});
+document.addEventListener("input",ev=>{if(ev.target.id==="csv")csvText=ev.target.value});
+document.addEventListener("change",ev=>{if(ev.target.id==="csvf"&&ev.target.files[0])ev.target.files[0].text().then(addCSV)});
+paint();routerUI();
+</script>
+</body>
+</html>

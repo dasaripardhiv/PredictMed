@@ -1,0 +1,10 @@
+# Core (enough to run everything in offline mode)
+fastapi
+uvicorn[standard]
+pydantic>=2
+numpy
+pandas
+scikit-learn
+lightgbm
+httpx
+python-dotenv

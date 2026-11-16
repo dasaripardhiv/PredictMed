@@ -1,0 +1,6 @@
+# Optional upgrades. Each one switches a stand-in to the real component.
+sentence-transformers   # MiniLM embeddings (RAG)
+faiss-cpu               # FAISS vector index (RAG)
+transformers            # local Hugging Face LLM (PHI route)
+torch                   # needed by transformers / sentence-transformers
+mlflow                  # model tracking and registry
