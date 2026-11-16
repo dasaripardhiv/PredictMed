@@ -82,7 +82,6 @@ backend/tests/      core tests
 frontend/index.html dashboard served by the API
 docs/               your enhanced slides, study notes, standalone demo (no backend needed)
 ```
-=======
 # PredictMed
 It is a dual LLM project for Virtusa Jatayu
 
